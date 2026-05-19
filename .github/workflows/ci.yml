@@ -1,0 +1,71 @@
+name: hyperbehcs-hermes-ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  packet-verification:
+    name: packet-first verification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run unit tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Verify example packet sidecars
+        run: python -m hyperbehcs_hermes.cli verify examples/packet.hbp
+
+      - name: Enforce no tracked JSON hot path
+        shell: bash
+        run: |
+          json_count=$(git ls-files '*.json' | wc -l | tr -d ' ')
+          echo "TRACKED_JSON_FILES=${json_count}"
+          test "${json_count}" = "0"
+
+      - name: Enforce public-safe tracked content needles
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import subprocess, sys
+
+          files = subprocess.check_output(['git', 'ls-files'], text=True).splitlines()
+          needles = [
+              'USB' + '\\' + 'VID_',
+              'GITHUB' + '_' + 'TOKEN',
+              'BEGIN ' + 'RSA' + ' PRIVATE KEY',
+              'BEGIN ' + 'OPENSSH' + ' PRIVATE KEY',
+              'BEGIN ' + 'PRIVATE' + ' KEY',
+              'password' + '=',
+          ]
+          allow = {'docs/PUBLISHING.md'}
+          hits = []
+          for file_name in files:
+              if file_name in allow:
+                  continue
+              try:
+                  text = Path(file_name).read_text(encoding='utf-8')
+              except UnicodeDecodeError:
+                  continue
+              for needle in needles:
+                  if needle in text:
+                      hits.append((file_name, needle))
+          if hits:
+              for file_name, needle in hits:
+                  print(f'{file_name}: public-safe needle present: {needle!r}')
+              sys.exit(1)
+          print('PUBLIC_SAFE_SCAN=pass')
+          PY
