@@ -111,7 +111,7 @@ This release is a public-safe authority grammar and descriptor-pack seed. It cur
 - Enforces `json=0` for packet hot path rows.
 - Keeps example packets fail-closed.
 - Provides an installable Python CLI for packet status, verification, chain checks, promotion checks, authority listing, and pack listing.
-- Includes six public descriptor packs for skills, tools, MCP, WebMCP, providers, and memory.
+- Includes eleven public descriptor packs for skills, tools, MCP, WebMCP, providers, memory, local proof crosswalk, Hermes /Goal, browser, endpoints, and proof/receipts.
 - Includes a 32-row public authority surface for Asolaria/Acer review.
 - Includes append-only chain verification.
 - Includes promotion receipt verification.
