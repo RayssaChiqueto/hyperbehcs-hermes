@@ -34,6 +34,34 @@ A packet can describe an MCP/WebMCP bridge. That does not mean the bridge may op
 
 A packet can describe a memory. That does not mean it may mutate canon, leak secrets, or promote itself into runtime.
 
+## Quickstart: download and use
+
+```bash
+git clone https://github.com/RayssaChiqueto/hyperbehcs-hermes.git
+cd hyperbehcs-hermes
+python -m hyperbehcs_hermes.cli verify examples/packet.hbp
+python -m hyperbehcs_hermes.cli verify examples/authority_surface.hbp
+python -m hyperbehcs_hermes.cli verify-chain examples/authority_surface.hbp
+python -m hyperbehcs_hermes.cli list-authority
+python -m hyperbehcs_hermes.cli list-packs
+```
+
+Optional local install:
+
+```bash
+python -m pip install -e .
+hyperbehcs-hermes verify examples/authority_surface.hbp
+hyperbehcs-hermes list-authority
+```
+
+Use docs:
+
+```text
+docs/INSTALL.md
+docs/QUICKSTART.md
+docs/PUBLISH-THE-STUFF.md
+```
+
 ## Core law
 
 ```text
@@ -528,6 +556,79 @@ hyperbehcs-hermes/
   receipts/               bootstrap receipts
   tests/                  fail-closed unit tests
 ```
+
+## v0.2 strict-authority public surface
+
+The repository now includes the public Asolaria/Acer ability surface as packet descriptors and tests.
+
+Public descriptor artifacts:
+
+```text
+examples/authority_surface.hbp
+examples/authority_surface.hbi
+examples/authority_surface.sha256
+examples/authority_surface.hex
+```
+
+Promotion receipt examples:
+
+```text
+examples/promotion_request.hbp
+examples/promotion_approved.hbp
+examples/promotion_revoked.hbp
+```
+
+Implementation modules:
+
+```text
+hyperbehcs_hermes/authority.py
+hyperbehcs_hermes/chain.py
+hyperbehcs_hermes/promotion.py
+```
+
+Tests:
+
+```text
+tests/test_authority_surface.py
+tests/test_chain.py
+tests/test_promotion.py
+```
+
+Docs:
+
+```text
+docs/ABILITY-SURFACE.md
+docs/STRICT-AUTHORITY.md
+docs/PUBLISH-THE-STUFF.md
+```
+
+Public descriptor packs:
+
+```text
+packs/skills/public_skill_descriptors.hbp
+packs/tools/public_tool_descriptors.hbp
+packs/mcp/public_mcp_descriptors.hbp
+packs/webmcp/public_webmcp_descriptors.hbp
+packs/providers/public_provider_descriptors.hbp
+packs/memory/public_memory_descriptors.hbp
+```
+
+This makes the difference visible to Asolaria and Acer:
+
+- abilities are public descriptors;
+- skills are separate read/execute authority surfaces;
+- tools are separate describe/execute authority surfaces;
+- MCP is separate describe/execute authority;
+- WebMCP is separate describe/execute authority;
+- providers are separate describe/call authority;
+- browser observe is separate from browser control;
+- memory read is separate from memory write;
+- device/USB/private/hidden/restricted/secret exports are explicit closed fields;
+- append-only row chains can be verified;
+- promotion receipts can be validated;
+- opening an authority field without a matching approval fails tests.
+
+The grammar is public and free. The execution authority remains receipt-gated.
 
 ## Current maturity label
 

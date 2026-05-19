@@ -80,6 +80,53 @@ device_write=0
 
 A verifier may reject rows that omit these fields for public or release packets.
 
+## v0.2 strict authority extensions
+
+Additional public packet fields describe the Acer/Asolaria ability surface without opening execution authority.
+
+Descriptor fields may be public:
+
+```text
+memory_read skill_read tool_describe mcp_describe webmcp_describe provider_describe browser_observe
+```
+
+Execution authority fields default closed and are verifier-visible:
+
+```text
+dispatch route shell terminal file_write memory_write
+tool_execute skill_execute mcp_execute webmcp_execute
+provider_call endpoint_open browser_control keyboard_control
+screenshot_capture network_call webhook_open cron_create
+device_read device_write usb_read usb_write
+private_surface_export hidden_surface_export restricted_surface_export secret_surface_export
+repo_publish package_release
+```
+
+Append-only fields:
+
+```text
+chain_id sequence prev_hash row_hash
+```
+
+Promotion receipt fields:
+
+```text
+promotion_target promotion_field promotion_scope promotion_expires promotion_revoked
+```
+
+Promotion statuses:
+
+```text
+PROMOTION_REQUESTED PROMOTION_APPROVED PROMOTION_DENIED PROMOTION_REVOKED PROMOTION_EXPIRED
+```
+
+Rules:
+
+- nonzero execution authority fails without a matching promotion approval;
+- revoked or expired approvals do not grant authority;
+- chain sequence duplication, skipping, or bad prev_hash fails;
+- JSON remains closed on the hot path.
+
 ## Standalone rule
 
 HyperBEHCS Hermes must run without Hermes Agent. Hermes Agent integration is an optional adapter under `adapters/hermes-agent/`.

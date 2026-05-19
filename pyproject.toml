@@ -4,12 +4,15 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hyperbehcs-hermes"
-version = "0.1.0"
-description = "Packet-first HyperBEHCS Hermes control-plane kernel"
+version = "0.2.0"
+description = "Packet-first HyperBEHCS Hermes control-plane kernel with public authority descriptor packs"
 readme = "README.md"
 requires-python = ">=3.10"
-license = { text = "MIT" }
+license = "MIT"
 authors = [{ name = "Asolaria HyperBEHCS Operators" }]
 
 [project.scripts]
 hyperbehcs-hermes = "hyperbehcs_hermes.cli:main"
+
+[tool.setuptools]
+packages = ["hyperbehcs_hermes"]

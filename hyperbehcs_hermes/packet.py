@@ -3,6 +3,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from pathlib import Path
 import hashlib
+from .authority import AUTHORITY_FIELDS
 
 REQUIRED_FIELDS = (
     "layer",
@@ -20,16 +21,7 @@ REQUIRED_FIELDS = (
     "status",
 )
 
-DEFAULT_CLOSED_FIELDS = (
-    "json",
-    "runtime",
-    "promote",
-    "endpoint",
-    "provider",
-    "mcp",
-    "usb_write",
-    "device_write",
-)
+DEFAULT_CLOSED_FIELDS = AUTHORITY_FIELDS
 
 @dataclass(frozen=True)
 class PacketRow:
