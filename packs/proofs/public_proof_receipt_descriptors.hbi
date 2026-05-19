@@ -1,0 +1,5 @@
+HBIv1|row=1|pid=PUBLIC-PROOF-CHAIN|bytes=939|sha256=caa6b2f57681618b8978e18b0e801f50902291d6ae275af05a69759ac7fca6ad|json=0|runtime=0|promote=0
+HBIv1|row=2|pid=PUBLIC-PROOF-PROMOTION|bytes=1016|sha256=bf8ccff9ac007d7e39d0072f6229b5d8764160e93c25571a98bd8344f5685f28|json=0|runtime=0|promote=0
+HBIv1|row=3|pid=PUBLIC-PROOF-REVOKE|bytes=1003|sha256=a8de0c38257cc11cb7282dcd8b8ae7279b27edd626a38fd4c0c7741d5dbb6b22|json=0|runtime=0|promote=0
+HBIv1|row=4|pid=PUBLIC-PROOF-EXPIRE|bytes=1003|sha256=2dd6c3aeb938f6e8082ca5830b43b7bbe47bb5c4cff460eb7e267d933614947a|json=0|runtime=0|promote=0
+HBIv1|row=5|pid=PUBLIC-PROOF-COSIGN-QUORUM|bytes=1036|sha256=9c73ba6a4b66d6a4c12e2b6b68c92d3977162e1f53ead4af31921f1dfb0ebac2|json=0|runtime=0|promote=0

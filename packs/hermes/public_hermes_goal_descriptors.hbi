@@ -1,0 +1,4 @@
+HBIv1|row=1|pid=PUBLIC-HERMES-GOAL-INTAKE|bytes=950|sha256=82071a42f78500572cd6c23acdaea2a88f5188aa85927d188b6ef1ce4e0f7d7b|json=0|runtime=0|promote=0
+HBIv1|row=2|pid=PUBLIC-HERMES-GOAL-PLAN|bytes=1008|sha256=707a5562fc5a484b7a1b563d45439a6ba2712906920f709b2990a54013c9114f|json=0|runtime=0|promote=0
+HBIv1|row=3|pid=PUBLIC-HERMES-GOAL-DELEGATE|bytes=1014|sha256=a0cef2e9790b9f6dd2b91303a262c9cafe3a1dfffdd5113c6227239bf35e4400|json=0|runtime=0|promote=0
+HBIv1|row=4|pid=PUBLIC-HERMES-GOAL-VERIFY|bytes=1005|sha256=ba3ffe40ed544589eb034a887acab4ae08aa2ac75991b7cd79b57a15ad7d16fa|json=0|runtime=0|promote=0

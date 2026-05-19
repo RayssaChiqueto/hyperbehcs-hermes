@@ -1,0 +1,4 @@
+HBIv1|row=1|pid=PUBLIC-BROWSER-OBSERVE|bytes=947|sha256=85ffa2dd6a482671bd773edfe7af2b68b23f60beadb1f296f3e8cac3b4f702ef|json=0|runtime=0|promote=0
+HBIv1|row=2|pid=PUBLIC-BROWSER-CONTROL|bytes=1008|sha256=a44cfe1da6817e3c8701d4f79c72585d05809a65ca0f92809742802a607cb4dd|json=0|runtime=0|promote=0
+HBIv1|row=3|pid=PUBLIC-BROWSER-SCREENSHOT|bytes=1020|sha256=232afcee9ff6d4c36551c1a03f443b62f401c11ef47339d3a03b230356aacff7|json=0|runtime=0|promote=0
+HBIv1|row=4|pid=PUBLIC-BROWSER-KEYBOARD|bytes=1013|sha256=36e3364819a7a4105e63191f7377b309bb47c210850adf58b6e1980b63900e97|json=0|runtime=0|promote=0

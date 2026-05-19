@@ -613,6 +613,7 @@ docs/STRICT-AUTHORITY.md
 docs/PUBLISH-THE-STUFF.md
 docs/LOCAL-PROOF-CROSSWALK.md
 docs/V0.2.1-HARDENING.md
+docs/V0.2.2-DESCRIPTOR-EXPANSION.md
 ```
 
 Public descriptor packs:
@@ -625,6 +626,10 @@ packs/webmcp/public_webmcp_descriptors.hbp
 packs/providers/public_provider_descriptors.hbp
 packs/memory/public_memory_descriptors.hbp
 packs/local/public_local_crosswalk_descriptors.hbp
+packs/hermes/public_hermes_goal_descriptors.hbp
+packs/browser/public_browser_descriptors.hbp
+packs/endpoints/public_endpoint_descriptors.hbp
+packs/proofs/public_proof_receipt_descriptors.hbp
 ```
 
 This makes the difference visible to Asolaria and Acer:
@@ -635,7 +640,9 @@ This makes the difference visible to Asolaria and Acer:
 - MCP is separate describe/execute authority;
 - WebMCP is separate describe/execute authority;
 - providers are separate describe/call authority;
-- browser observe is separate from browser control;
+- browser observe is separate from browser control, screenshot capture, and keyboard control;
+- endpoint describe is separate from endpoint open, network call, and webhook open;
+- proof/receipt descriptors are separate from promotion authority;
 - memory read is separate from memory write;
 - device/USB/private/hidden/restricted/secret exports are explicit closed fields;
 - append-only row chains can be verified;
@@ -649,7 +656,7 @@ The grammar is public and free. The execution authority remains receipt-gated.
 This repository is currently:
 
 ```text
-v0.2.1-doc-ci-hardening: public strict-authority grammar, descriptor packs, installable CLI, CI pack verification, and local proof crosswalk seed
+v0.2.2-descriptor-expansion: public strict-authority grammar, installable CLI, CI pack verification, local proof crosswalk seed, and expanded Hermes/browser/endpoint/proof descriptor packs
 ```
 
 It is not yet:
