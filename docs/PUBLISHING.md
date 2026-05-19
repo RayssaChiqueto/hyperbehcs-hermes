@@ -46,7 +46,7 @@ public-safe needle scan returns no matches outside this document
 ```text
 git remote add origin https://github.com/RayssaChiqueto/hyperbehcs-hermes.git
 git push -u origin main
-git push origin v0.1.0-local
+git push origin v0.2.1-doc-ci-hardening
 ```
 
 If `origin` already exists, verify it first:

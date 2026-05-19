@@ -22,11 +22,53 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Install package smoke
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install .
+          hyperbehcs-hermes --help
+
       - name: Run unit tests
         run: python -m unittest discover -s tests -v
 
       - name: Verify example packet sidecars
         run: python -m hyperbehcs_hermes.cli verify examples/packet.hbp
+
+      - name: Verify public authority surface
+        run: |
+          python -m hyperbehcs_hermes.cli verify examples/authority_surface.hbp
+          python -m hyperbehcs_hermes.cli verify-chain examples/authority_surface.hbp
+
+      - name: Verify every public descriptor pack
+        shell: bash
+        run: |
+          found=0
+          for packet in packs/*/*.hbp; do
+            found=$((found + 1))
+            echo "VERIFY_PACK=${packet}"
+            python -m hyperbehcs_hermes.cli verify "${packet}"
+            python -m hyperbehcs_hermes.cli verify-chain "${packet}"
+          done
+          test "${found}" -ge 6
+          echo "PACKS_VERIFIED=${found}"
+
+      - name: Smoke CLI listing commands
+        shell: bash
+        run: |
+          python -m hyperbehcs_hermes.cli list-authority | tee /tmp/authority.txt
+          python -m hyperbehcs_hermes.cli list-packs | tee /tmp/packs.txt
+          test "$(wc -l < /tmp/authority.txt | tr -d ' ')" -gt 20
+          test "$(wc -l < /tmp/packs.txt | tr -d ' ')" -gt 6
+
+      - name: Verify promotion examples
+        shell: bash
+        run: |
+          python -m hyperbehcs_hermes.cli verify-promotions examples/promotion_approved.hbp
+          if python -m hyperbehcs_hermes.cli verify-promotions examples/promotion_revoked.hbp; then
+            echo "revoked promotion unexpectedly passed"
+            exit 1
+          fi
+          echo "REVOKED_PROMOTION_FAILS=expected"
 
       - name: Enforce no tracked JSON hot path
         shell: bash

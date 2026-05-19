@@ -60,6 +60,7 @@ Use docs:
 docs/INSTALL.md
 docs/QUICKSTART.md
 docs/PUBLISH-THE-STUFF.md
+docs/LOCAL-PROOF-CROSSWALK.md
 ```
 
 ## Core law
@@ -100,16 +101,20 @@ If an outside system forces JSON, JSON belongs at the boundary adapter only. It 
 
 ## What this public release does
 
-This release is a public-safe starter verifier and packet kernel seed. It currently:
+This release is a public-safe authority grammar and descriptor-pack seed. It currently:
 
 - Parses HyperBEHCS packet rows.
 - Builds `.hbi` indexes from `.hbp` packets.
 - Verifies `.sha256` sidecars.
 - Verifies `.hex` sidecars.
-- Detects basic open authority fields.
+- Detects open authority fields.
 - Enforces `json=0` for packet hot path rows.
 - Keeps example packets fail-closed.
-- Provides a small CLI for read-only packet status and verification.
+- Provides an installable Python CLI for packet status, verification, chain checks, promotion checks, authority listing, and pack listing.
+- Includes six public descriptor packs for skills, tools, MCP, WebMCP, providers, and memory.
+- Includes a 32-row public authority surface for Asolaria/Acer review.
+- Includes append-only chain verification.
+- Includes promotion receipt verification.
 - Provides optional Hermes Agent adapter notes without making Hermes Agent the owner.
 - Runs public CI on GitHub Actions.
 - Enforces no tracked JSON files in CI.
@@ -117,7 +122,7 @@ This release is a public-safe starter verifier and packet kernel seed. It curren
 
 ## What this public release does not do yet
 
-This release intentionally does not grant authority or open live bridges. It does not yet include the complete strict authority courthouse.
+This release intentionally does not grant authority or open live bridges. It does not include the complete private/local runtime.
 
 It does not yet:
 
@@ -130,9 +135,7 @@ It does not yet:
 - Write to USB/device surfaces.
 - Scan raw private, hidden, secret, restricted, or stealth content.
 - Validate a full cosign/quorum promotion chain.
-- Validate full append-only chain law across history.
 - Provide a production memory viewer.
-- Provide a package-manager installer.
 - Replace Hermes Agent, Claude Code, Cursor, Gemini CLI, or other agent runtimes.
 
 That boundary is intentional. The seed must be safe before the bridge becomes live.
@@ -455,7 +458,7 @@ This is a major difference from systems that automatically evict stale memories.
 
 ## Authority fields
 
-The current public verifier checks this starter set:
+The current public verifier checks the v0.2 strict authority field set. Descriptor/read fields can be public; execution/write/control/export/release fields fail closed unless a matching promotion receipt exists.
 
 ```text
 json
@@ -468,7 +471,7 @@ usb_write
 device_write
 ```
 
-The future strict authority verifier should expand to fields such as:
+Additional strict fields include:
 
 ```text
 dispatch
@@ -529,6 +532,14 @@ Before publishing or recommending this repository:
 ```text
 python -m unittest discover -s tests -v
 python -m hyperbehcs_hermes.cli verify examples/packet.hbp
+python -m hyperbehcs_hermes.cli verify examples/authority_surface.hbp
+python -m hyperbehcs_hermes.cli verify-chain examples/authority_surface.hbp
+python -m hyperbehcs_hermes.cli list-authority
+python -m hyperbehcs_hermes.cli list-packs
+for f in packs/*/*.hbp; do
+  python -m hyperbehcs_hermes.cli verify "$f"
+  python -m hyperbehcs_hermes.cli verify-chain "$f"
+done
 git ls-files '*.json'
 ```
 
@@ -600,6 +611,8 @@ Docs:
 docs/ABILITY-SURFACE.md
 docs/STRICT-AUTHORITY.md
 docs/PUBLISH-THE-STUFF.md
+docs/LOCAL-PROOF-CROSSWALK.md
+docs/V0.2.1-HARDENING.md
 ```
 
 Public descriptor packs:
@@ -611,6 +624,7 @@ packs/mcp/public_mcp_descriptors.hbp
 packs/webmcp/public_webmcp_descriptors.hbp
 packs/providers/public_provider_descriptors.hbp
 packs/memory/public_memory_descriptors.hbp
+packs/local/public_local_crosswalk_descriptors.hbp
 ```
 
 This makes the difference visible to Asolaria and Acer:
@@ -635,7 +649,7 @@ The grammar is public and free. The execution authority remains receipt-gated.
 This repository is currently:
 
 ```text
-v0.1.0-local: public packet-first bootstrap verifier
+v0.2.1-doc-ci-hardening: public strict-authority grammar, descriptor packs, installable CLI, CI pack verification, and local proof crosswalk seed
 ```
 
 It is not yet:
@@ -655,7 +669,7 @@ That is not a weakness. It is the correct public seed boundary.
 Target:
 
 ```text
-v0.2.0-strict-authority
+v0.3.0-public-proof-crosswalk
 ```
 
 Minimum scope:
