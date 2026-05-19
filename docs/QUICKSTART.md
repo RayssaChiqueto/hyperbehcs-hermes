@@ -37,7 +37,26 @@ OK=true
 ROWS=32
 ```
 
-## 4. See the authority surface
+## 4. Verify the public spindle-wave MCP/WebMCP plan
+
+```bash
+python -m hyperbehcs_hermes.cli verify packs/waves/public_spindle_wave_mcp_webmcp.hbp
+python -m hyperbehcs_hermes.cli verify-chain packs/waves/public_spindle_wave_mcp_webmcp.hbp
+python -m hyperbehcs_hermes.cli wave verify packs/waves/public_spindle_wave_mcp_webmcp.hbp
+```
+
+Expected:
+
+```text
+HYPERBEHCS_WAVE_VERIFY_BEGIN
+OK=true
+ROWS=20
+SPINDLES=5
+```
+
+This plans/reviews MCP/WebMCP work lanes. It does not dispatch agents or open live bridges.
+
+## 5. See the authority surface
 
 ```bash
 python -m hyperbehcs_hermes.cli list-authority
@@ -45,7 +64,7 @@ python -m hyperbehcs_hermes.cli list-authority
 
 This prints the public descriptor surface for memory, skills, tools, MCP, WebMCP, providers, browser, shell, terminal, file writes, devices, USB, private/hidden/restricted/secret exports, repo publishing, and package release.
 
-## 5. See public packs
+## 6. See public packs
 
 ```bash
 python -m hyperbehcs_hermes.cli list-packs
@@ -60,9 +79,15 @@ packs/mcp/
 packs/webmcp/
 packs/providers/
 packs/memory/
+packs/browser/
+packs/endpoints/
+packs/hermes/
+packs/local/
+packs/proofs/
+packs/waves/
 ```
 
-## 6. Run the full test suite
+## 7. Run the full test suite
 
 ```bash
 python -m unittest discover -s tests -v
@@ -79,3 +104,4 @@ OK
 If these commands pass, the downloaded repo is usable as a packet-first authority verifier and public descriptor pack.
 
 It does not execute live tools. It proves the control plane first.
+

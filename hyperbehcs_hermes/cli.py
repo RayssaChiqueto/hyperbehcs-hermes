@@ -8,6 +8,8 @@ from .packet import read_packet, sha256_bytes
 from .verifier import verify_packet, write_sidecars
 from .chain import verify_append_only_chain
 from .promotion import verify_promotions
+from .wave import validate_spindle_wave
+from .wave_templates import mcp_webmcp_wave_text
 
 
 def cmd_status(args: argparse.Namespace) -> int:
@@ -77,6 +79,27 @@ def cmd_list_packs(args: argparse.Namespace) -> int:
     return 0
 
 
+
+def cmd_wave_verify(args: argparse.Namespace) -> int:
+    rows = read_packet(args.packet)
+    result = validate_spindle_wave(rows, require_closed=True)
+    print("\n".join(result.receipt_lines()))
+    return 0 if result.ok else 1
+
+
+def cmd_wave_template(args: argparse.Namespace) -> int:
+    if args.template != "mcp-webmcp":
+        raise ValueError(f"unsupported wave template: {args.template}")
+    text = mcp_webmcp_wave_text(wave_id=args.wave_id)
+    if args.out:
+        Path(args.out).write_text(text, encoding="utf-8", newline="\n")
+        print("HYPERBEHCS_WAVE_TEMPLATE_WRITE=PASS")
+        print(f"PACKET={args.out}")
+    else:
+        print(text, end="")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="hyperbehcs-hermes")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -104,6 +127,16 @@ def build_parser() -> argparse.ArgumentParser:
     packs = sub.add_parser("list-packs")
     packs.add_argument("--root", default=".")
     packs.set_defaults(func=cmd_list_packs)
+    wave = sub.add_parser("wave")
+    wave_sub = wave.add_subparsers(dest="wave_command", required=True)
+    wave_verify = wave_sub.add_parser("verify")
+    wave_verify.add_argument("packet")
+    wave_verify.set_defaults(func=cmd_wave_verify)
+    wave_template = wave_sub.add_parser("template")
+    wave_template.add_argument("template", choices=["mcp-webmcp"])
+    wave_template.add_argument("--wave-id", default="WAVE-MCP-WEBMCP-v1")
+    wave_template.add_argument("--out")
+    wave_template.set_defaults(func=cmd_wave_template)
     return parser
 
 
@@ -113,3 +146,4 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+

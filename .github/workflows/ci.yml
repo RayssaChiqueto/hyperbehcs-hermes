@@ -52,6 +52,15 @@ jobs:
           test "${found}" -ge 6
           echo "PACKS_VERIFIED=${found}"
 
+      - name: Verify spindle-wave MCP/WebMCP descriptor
+        run: |
+          python -m hyperbehcs_hermes.cli verify packs/waves/public_spindle_wave_mcp_webmcp.hbp
+          python -m hyperbehcs_hermes.cli verify-chain packs/waves/public_spindle_wave_mcp_webmcp.hbp
+          python -m hyperbehcs_hermes.cli wave verify packs/waves/public_spindle_wave_mcp_webmcp.hbp
+          python -m hyperbehcs_hermes.cli verify examples/spindle_wave_mcp_webmcp.hbp
+          python -m hyperbehcs_hermes.cli verify-chain examples/spindle_wave_mcp_webmcp.hbp
+          python -m hyperbehcs_hermes.cli wave verify examples/spindle_wave_mcp_webmcp.hbp
+
       - name: Smoke CLI listing commands
         shell: bash
         run: |

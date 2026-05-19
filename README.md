@@ -42,6 +42,7 @@ cd hyperbehcs-hermes
 python -m hyperbehcs_hermes.cli verify examples/packet.hbp
 python -m hyperbehcs_hermes.cli verify examples/authority_surface.hbp
 python -m hyperbehcs_hermes.cli verify-chain examples/authority_surface.hbp
+python -m hyperbehcs_hermes.cli wave verify packs/waves/public_spindle_wave_mcp_webmcp.hbp
 python -m hyperbehcs_hermes.cli list-authority
 python -m hyperbehcs_hermes.cli list-packs
 ```
@@ -61,6 +62,8 @@ docs/INSTALL.md
 docs/QUICKSTART.md
 docs/PUBLISH-THE-STUFF.md
 docs/LOCAL-PROOF-CROSSWALK.md
+docs/SPINDLE-WAVE.md
+docs/MCP-WEBMCP-WAVE.md
 ```
 
 ## Core law
@@ -110,8 +113,9 @@ This release is a public-safe authority grammar and descriptor-pack seed. It cur
 - Detects open authority fields.
 - Enforces `json=0` for packet hot path rows.
 - Keeps example packets fail-closed.
-- Provides an installable Python CLI for packet status, verification, chain checks, promotion checks, authority listing, and pack listing.
-- Includes eleven public descriptor packs for skills, tools, MCP, WebMCP, providers, memory, local proof crosswalk, Hermes /Goal, browser, endpoints, and proof/receipts.
+- Provides an installable Python CLI for packet status, verification, chain checks, promotion checks, authority listing, pack listing, and spindle-wave validation.
+- Provides reusable spindle-wave verification and deterministic MCP/WebMCP wave templates.
+- Includes public descriptor packs for skills, tools, MCP, WebMCP, providers, memory, local proof crosswalk, Hermes /Goal, browser, endpoints, proof/receipts, and spindle-wave orchestration.
 - Includes a 32-row public authority surface for Asolaria/Acer review.
 - Includes append-only chain verification.
 - Includes promotion receipt verification.
@@ -139,6 +143,26 @@ It does not yet:
 - Replace Hermes Agent, Claude Code, Cursor, Gemini CLI, or other agent runtimes.
 
 That boundary is intentional. The seed must be safe before the bridge becomes live.
+
+## Spindle-wave MCP/WebMCP workflow
+
+HyperBEHCS Hermes includes a packet-first spindle-wave workflow layer. A spindle is valid only when it has exactly one `agent_slot=main` row and exactly three subagent rows: `subagent-1`, `subagent-2`, and `subagent-3`.
+
+The public MCP/WebMCP wave is inert and fail-closed:
+
+```bash
+python -m hyperbehcs_hermes.cli verify packs/waves/public_spindle_wave_mcp_webmcp.hbp
+python -m hyperbehcs_hermes.cli verify-chain packs/waves/public_spindle_wave_mcp_webmcp.hbp
+python -m hyperbehcs_hermes.cli wave verify packs/waves/public_spindle_wave_mcp_webmcp.hbp
+```
+
+Emit the deterministic template without dispatching anything:
+
+```bash
+python -m hyperbehcs_hermes.cli wave template mcp-webmcp --wave-id WAVE-MCP-WEBMCP-v1
+```
+
+Wave assignment is description, not dispatch. MCP/WebMCP stay describe-only until a separate promotion receipt authorizes a narrow adapter scope.
 
 ## Is this better than normal agent memory systems?
 
@@ -719,3 +743,4 @@ Packet this claim, receipt it, index it, keep authority closed, and only promote
 ```
 
 That is why it is different.
+

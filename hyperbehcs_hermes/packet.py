@@ -58,6 +58,8 @@ def parse_row(line: str) -> PacketRow:
         key, value = part.split("=", 1)
         if not key:
             raise ValueError("packet field has empty key")
+        if key in fields:
+            raise ValueError(f"duplicate packet field: {key}")
         fields[key] = value
     return PacketRow(raw=line, fields=fields)
 

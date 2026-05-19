@@ -1,4 +1,4 @@
-# HyperBEHCS Hermes Packet Specification v0.1
+# HyperBEHCS Hermes Packet Specification
 
 ## Source truth
 
@@ -130,3 +130,36 @@ Rules:
 ## Standalone rule
 
 HyperBEHCS Hermes must run without Hermes Agent. Hermes Agent integration is an optional adapter under `adapters/hermes-agent/`.
+
+
+## v0.3 spindle-wave workflow extension
+
+Spindle-wave rows describe multi-agent build/review topology without granting execution authority. A wave packet is still `.hbp` source truth, with `.hbi`, `.sha256`, and `.hex` sidecars.
+
+Required spindle topology:
+
+```text
+one spindle = exactly one agent_slot=main + exactly three subagents
+subagent slots = subagent-1 subagent-2 subagent-3
+```
+
+Wave fields:
+
+```text
+wave_id spindle_id agent_slot role goal input_packet output_receipt depends_on acceptance mcp_scope webmcp_scope
+```
+
+Wave statuses:
+
+```text
+WAVE_DESCRIBED SPINDLE_DESCRIBED SPINDLE_MAIN_ASSIGNED SPINDLE_SUBAGENT_ASSIGNED
+SPINDLE_REVIEW_REQUESTED SPINDLE_REVIEWED WAVE_RECEIPTED WAVE_BLOCKED
+```
+
+Rules:
+
+- wave assignment is description, not dispatch;
+- `dispatch=0` and `route=0` remain closed in public wave rows;
+- `mcp_execute=0` and `webmcp_execute=0` remain closed until separate promotion receipts exist;
+- `repo_publish=0` and `package_release=0` remain closed in public wave descriptors;
+- JSON remains closed on the hot path.
